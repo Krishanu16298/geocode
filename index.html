@@ -52,10 +52,22 @@
         var addressComponents = response.data.results[0].address_components;
         var addressComponentsOutput = '<ul class="list-group">';
         for(var i=0;i<addressComponents.length;i++)
-        {
+        { 
+          if(addressComponents[i].types[0] === 'administrative_area_level_1'){
+            addressComponentsOutput += `
+              <li class="list-group-item"><strong>State</strong> : ${addressComponents[i].long_name}</li>
+            `;
+          }
+          else if (addressComponents[i].types[0] === 'administrative_area_level_2') {
+            addressComponentsOutput += `
+              <li class="list-group-item"><strong>City</strong> : ${addressComponents[i].long_name}</li>
+            `;
+          }
+          else {
           addressComponentsOutput +=`
             <li class="list-group-item"><strong>${addressComponents[i].types[0]}</strong> : ${addressComponents[i].long_name}</li>
           `;
+          }
         }
         addressComponentsOutput+='</ul>';
         document.getElementById('add').innerHTML=addressComponentsOutput;
